@@ -1,0 +1,6 @@
+--library urals-renderer-web
+--library sneaker
+--class-path src
+--class-path test
+--main Main
+--js target/main.js
