@@ -9,6 +9,8 @@ Functions for render web-element by template in browser by DOM with settings eve
 Package tested for Haxe >= 4.0.
 The functionality or it missing of the package for lesser versions has not been tested.
 
+Only for js-browser target!
+
 
 ## Example of ClickMe SPA
 ```haxe
