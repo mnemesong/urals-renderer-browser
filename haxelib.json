@@ -1,0 +1,14 @@
+{
+    "name": "urals-renderer-web-js",
+    "url" : "https://github.com/mnemesong/urals-renderer-web-js",
+    "license": "MIT",
+    "tags": ["haxe", "widget", "render", "web", "js", "browser"],
+    "description": "Functions for render elements into Browser",
+    "version": "0.0.1",
+    "releasenote": "Release",
+    "contributors": ["Anatoly_Starodubtsev"],
+    "dependencies": {
+      "urals-renderer-web": ""
+    },
+    "classPath": "src/"
+  }
