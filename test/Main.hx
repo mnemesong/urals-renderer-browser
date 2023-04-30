@@ -8,6 +8,6 @@ class Main
     public static function main() {
         BrowserHtmlInjectorTest.run();
         BrowserRendererTest.run();
-        trace("All tests had been successfully finished");
+        trace("All tests had been finished");
     }
 }
