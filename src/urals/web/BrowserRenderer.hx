@@ -1,44 +1,44 @@
 package urals.web;
 
-import urals.web.StaticRenderer.groupBySelector;
 import js.Browser;
 import js.html.Element;
 
-private typedef TemplateFunc<M, Id> = (m: M, id: Id) -> String;
+class BrowserRenderer<M, Id> extends AbstractRenderer<M, Id> 
+{
+    private var afterRender: (elHtml: Element, el: {id: Id, val: M}) -> Void;
 
-private typedef RenderBundle<M, Id> = {
-    template: TemplateFunc<M, Id>,
-    renderId: (id: Id) -> String
-};
-
-private typedef Entity<M, Id> = {val: M, id: Id};
-
-/**
-    Renders element, created by RenderBundle into browser by selector and
-    execute after-render function 
-**/
-function browserRender<M, Id>(
-    elements: Array<Entity<M, Id>>, 
-    getRootSelector: (el: Entity<M, Id>) -> String, //Where host new elem
-    renderBundle: RenderBundle<M, Id>,
-    afterRender: (elHtml: Element, el: Entity<M, Id>) -> Void
-): Void {
-    var doc = Browser.document;
-    var group = groupBySelector(elements, getRootSelector);
-    for (i in 0...group.length) {
-        var el = doc.querySelector(group[i].assoc);
-        if(el != null) {
-            el.innerHTML = group[i].arrs
-                .map(el -> renderBundle.template(el.val, el.id))
-                .join("\n");
-        }
+    public function new(
+        afterRender: (elHtml: Element, el: {id: Id, val: M}) -> Void
+    ) {
+        this.afterRender = afterRender;
     }
-    Browser.window.setTimeout(() -> {
-        for (i in 0...elements.length) {
-            var elHtml = doc.querySelector('#' + renderBundle.renderId(elements[i].id));
-            if(elHtml != null) {
-                afterRender(elHtml, elements[i]);
+
+    public function render(
+        elements: Array<{id: Id, val: M}>, 
+        getRootSelector: (el: {id: Id, val: M}) -> String,
+        renderBundle: {
+            template: (m: M, id: Id) -> String,
+            renderId: (id: Id) -> String
+        }
+    ): BrowserRenderer<M, Id> {
+        var doc = Browser.document;
+        var group = AbstractRenderer.groupBySelector(elements, getRootSelector);
+        for (i in 0...group.length) {
+            var el = doc.querySelector(group[i].assoc);
+            if(el != null) {
+                el.innerHTML = group[i].arrs
+                    .map(el -> renderBundle.template(el.val, el.id))
+                    .join("\n");
             }
         }
-    }, 10);
+        Browser.window.setTimeout(() -> {
+            for (i in 0...elements.length) {
+                var elHtml = doc.querySelector('#' + renderBundle.renderId(elements[i].id));
+                if(elHtml != null) {
+                    afterRender(elHtml, elements[i]);
+                }
+            }
+        }, 10);
+        return new BrowserRenderer(afterRender);
+    }
 }
