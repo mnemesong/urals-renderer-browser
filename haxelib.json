@@ -4,11 +4,11 @@
     "license": "MIT",
     "tags": ["haxe", "widget", "render", "web", "js", "browser"],
     "description": "Functions for render elements into Browser",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "releasenote": "Release",
     "contributors": ["Anatoly_Starodubtsev"],
     "dependencies": {
-      "urals-renderer-web": "0.2.2"
+      "urals-renderer-web": "0.2.3"
     },
     "classPath": "src/"
   }
